@@ -163,7 +163,7 @@
                             <div class="listview" id="notifications">
                                 <div class="lv-header">
                                     Notification
-                    
+
                                     <ul class="actions">
                                         <li class="dropdown">
                                             <a href="#" data-clear="notification">
@@ -229,10 +229,10 @@
                                         </div>
                                     </a>
                                 </div>
-                    
+
                                 <a class="lv-footer" href="#">View Previous</a>
                             </div>
-                    
+
                         </div>
                     </li>
                     <li class="dropdown hidden-xs">
@@ -245,7 +245,7 @@
                                 <div class="lv-body">
                                     <div class="lv-item">
                                         <div class="lv-title m-b-5">HTML5 Validation Report</div>
-                    
+
                                         <div class="progress">
                                             <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
                                                 <span class="sr-only">95% Complete (success)</span>
@@ -254,7 +254,7 @@
                                     </div>
                                     <div class="lv-item">
                                         <div class="lv-title m-b-5">Google Chrome Extension</div>
-                    
+
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
                                                 <span class="sr-only">80% Complete (success)</span>
@@ -263,7 +263,7 @@
                                     </div>
                                     <div class="lv-item">
                                         <div class="lv-title m-b-5">Social Intranet Projects</div>
-                    
+
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
                                                 <span class="sr-only">20% Complete</span>
@@ -272,7 +272,7 @@
                                     </div>
                                     <div class="lv-item">
                                         <div class="lv-title m-b-5">Bootstrap Admin Template</div>
-                    
+
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
                                                 <span class="sr-only">60% Complete (warning)</span>
@@ -281,7 +281,7 @@
                                     </div>
                                     <div class="lv-item">
                                         <div class="lv-title m-b-5">Youtube Client App</div>
-                    
+
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
                                                 <span class="sr-only">80% Complete (danger)</span>
@@ -289,7 +289,7 @@
                                         </div>
                                     </div>
                                 </div>
-                    
+
                                 <a class="lv-footer" href="#">View All</a>
                             </div>
                         </div>
@@ -358,23 +358,23 @@
                 </div>
                 <ul class="main-menu">
                     <?php
-                    generamenu($menu);
-                    function generamenu($menu, $cls = "")
-                    {
-                        foreach ($menu as $m) {
-                            if (is_array($m['url'])) {
-                                echo '<li class="sub-menu">
+generamenu($menu);
+function generamenu($menu, $cls = "")
+{
+    foreach ($menu as $m) {
+        if (is_array($m['url'])) {
+            echo '<li class="sub-menu">
 									<a href="#"><i class="' . $m['icon'] . '"></i> ' . $m['nom'] . '</a>
 									<ul style="display: none;">';
-                                generamenu($m['url'], '');
-                                echo '</ul></li>';
-                            } else {
-                                echo '<li class="' . $cls . '"><a href="#" onclick="ver_pantalla(' . "'" . $m['url'] . "'" . ');"><i class="' . $m['icon'] . '"></i> ' . $m['nom'] . '</a></li>';
-                            }
-                        }
-                    }
+            generamenu($m['url'], '');
+            echo '</ul></li>';
+        } else {
+            echo '<li class="' . $cls . '"><a href="#" onclick="ver_pantalla(' . "'" . $m['url'] . "'" . ');"><i class="' . $m['icon'] . '"></i> ' . $m['nom'] . '</a></li>';
+        }
+    }
+}
 
-                    ?>
+?>
                 </ul>
             </div>
         </aside>
@@ -384,13 +384,13 @@
                     <li role="presentation" class="active"><a href="#friends" aria-controls="friends" role="tab" data-toggle="tab">Friends</a></li>
                     <li role="presentation"><a href="#online" aria-controls="online" role="tab" data-toggle="tab">Online Now</a></li>
                 </ul>
-            
+
                 <div class="chat-search">
                     <div class="fg-line">
                         <input type="text" class="form-control" placeholder="Search People">
                     </div>
                 </div>
-                
+
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="friends">
                         <div class="listview">
@@ -406,7 +406,7 @@
                                     </div>
                                 </div>
                             </a>
-                            
+
                             <a class="lv-item" href="#">
                                 <div class="media">
                                     <div class="pull-left">
@@ -418,7 +418,7 @@
                                     </div>
                                 </div>
                             </a>
-                            
+
                             <a class="lv-item" href="#">
                                 <div class="media">
                                     <div class="pull-left p-relative">
@@ -431,7 +431,7 @@
                                     </div>
                                 </div>
                             </a>
-                            
+
                             <a class="lv-item" href="#">
                                 <div class="media">
                                     <div class="pull-left p-relative">
@@ -444,7 +444,7 @@
                                     </div>
                                 </div>
                             </a>
-                            
+
                             <a class="lv-item" href="#">
                                 <div class="media">
                                     <div class="pull-left">
@@ -456,7 +456,7 @@
                                     </div>
                                 </div>
                             </a>
-                            
+
                             <a class="lv-item" href="#">
                                 <div class="media">
                                     <div class="pull-left">
@@ -496,7 +496,7 @@
                                     </div>
                                 </div>
                             </a>
-                            
+
                             <a class="lv-item" href="#">
                                 <div class="media">
                                     <div class="pull-left p-relative">
@@ -509,7 +509,7 @@
                                     </div>
                                 </div>
                             </a>
-                            
+
                             <a class="lv-item" href="#">
                                 <div class="media">
                                     <div class="pull-left p-relative">
@@ -538,7 +538,7 @@
                         </div>
                     </div>
                 </div>
-            </aside>          
+            </aside>
             -->
         <section id="content">
             <div class="container" id="body_main">

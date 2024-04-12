@@ -9,6 +9,10 @@
                 $("#vregbolpag_mensual_result").html(data);
                 $("#vregbolpag_mensual_busqueda_x_cpn").css("display", "none");
                 $("#vregbolpag_mensual_div_registrar").css("display", "block");
+
+                var ord_ide = document.querySelector('input[name="ord_ide"]').value;
+                var nro_bol_input = document.querySelector('input[name="nro_bol"]');
+                nro_bol_input.value = ord_ide;
             }
             loading("close");
         });
@@ -48,8 +52,8 @@
             </div>
             <div class="row" id="vregbolpag_mensual_div_registrar" style="display:none;">
                 <?php
-                echo $completar;
-                ?>
+echo $completar;
+?>
             </div>
         </form>
     </div>

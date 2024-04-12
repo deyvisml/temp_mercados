@@ -8,7 +8,7 @@
     <br>
     <div class="form-group fg-float" style="display:block;">
         <div class="fg-line">
-            <input type="text" class="input-sm form-control fg-input" name="nro_bol" required>
+            <input type="text" class="input-sm form-control fg-input" name="nro_bol" value="0" readonly>
         </div>
         <label class="fg-label">Número de Comprobante de Pago</label>
     </div>

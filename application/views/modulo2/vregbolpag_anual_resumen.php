@@ -1,7 +1,7 @@
 <?php
 if ($bol == false) {
-	echo "error";
-	return;
+    echo "error";
+    return;
 }
 $fechaact = $this->mgeneral->get_fecha();
 $fechaact = $fechaact[0]->fecha;
@@ -14,19 +14,20 @@ $detalle = "";
 $detalle2 = "";
 $montos = "";
 for ($i = 0; $i < count($tmp) - 1; $i++) {
-	$tmp2 = explode(":", $tmp[$i]);
-	$monto = $monto + $tmp2[1];
-	//$tper = explode("-", $tmp2[0]);
-	//$tper = $tper[0] . "-" . $meses[$tper[1]];
-	//$tper = $meses[$tper[1]] . ". " . $tper[0];
-	$detalle = $detalle . "<span class='badge badge-primary'>" . $tmp2[0] . "</span> ";
-	$detalle2 = $detalle2 . $tmp2[0] . ",";
-	$montos = $montos . $tmp2[1] . ", ";
+    $tmp2 = explode(":", $tmp[$i]);
+    $monto = $monto + $tmp2[1];
+    //$tper = explode("-", $tmp2[0]);
+    //$tper = $tper[0] . "-" . $meses[$tper[1]];
+    //$tper = $meses[$tper[1]] . ". " . $tper[0];
+    $detalle = $detalle . "<span class='badge badge-primary'>" . $tmp2[0] . "</span> ";
+    $detalle2 = $detalle2 . $tmp2[0] . ",";
+    $montos = $montos . $tmp2[1] . ", ";
 }
 ?>
 <input type="hidden" name="anios" value="<?php echo $detalle2; ?>">
 <input type="hidden" name="montos" value="<?php echo $montos; ?>">
 <input type="hidden" name="ide" value="<?php echo $bol->com_ide; ?>">
+<input type="hidden" name="ord_ide" value="<?php echo $bol->ord_ide; ?>">
 <table class="table table-striped table-bordered table-condensed table-hover">
 	<tbody>
 		<tr>
