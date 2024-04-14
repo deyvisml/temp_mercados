@@ -117,18 +117,20 @@ class Modulo2 extends CI_Controller
         $fechaact = $fechaact[0]->fecha;
         $fechaact = explode(" ", $fechaact);
         $fechaact = $fechaact[0];
+        $fechaact = date_create_from_format('Y-m-d', $fechaact);
+        $fechaact = date_format($fechaact, 'd-m-Y');
 
         $alto = 6;
         $borde = 0;
         $this->load->library('Pdf');
         $pdf = new pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 
-        $pdf->SetMargins(5, 10, 5, 5);
+        $pdf->SetMargins(0, 0, 0, true);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
 
         $pdf->AddPage('P');
-        $pdf->SetFont('helvetica', '', 8, '', true);
+        $pdf->SetFont('helvetica', '', 7, '', true);
 
         $tmp = explode(";", $bol->ord_detalle);
         $monto = 0;
@@ -141,16 +143,121 @@ class Modulo2 extends CI_Controller
 
         if ($tipo == "MENSUAL") {
             $tmp2 = explode(":", $tmp[0]);
-            $del = $tmp2[0];
+            $del = $tmp2[0]; // get first "year with its month"
             $tmp2 = explode(":", $tmp[count($tmp) - 2]);
-            $al = $tmp2[0];
-            $del = $this->get_mes($del);
-            $al = $this->get_mes($al);
+            $al = $tmp2[0]; // get the "year with its month" before last "year with its month"
+            $del = $this->get_mes($del); // get month of the first "year with its month"
+            $al = $this->get_mes($al); // get month of the year with its month" before last "year with its month"
             $detalle = "DE $del A $al";
         }
 
-        $pdf->MultiCell(30, $alto, $fechaact, $borde = 0, 'L', 0, 0, 160, 40);
-        $pdf->MultiCell(150, $alto, $bol->com_datos, $borde = 0, 'L', 0, 0, 42, 55);
+        $borderStyle = array(
+            'LTRB' => array( // Establecer bordes en los cuatro lados (izquierda, arriba, derecha, abajo)
+                'width' => 0.1, // Grosor del borde (en mm)
+                'cap' => 'butt', // Estilo de extremo del borde (puedes usar 'butt', 'round', o 'square')
+                'join' => 'miter', // Estilo de unión del borde (puedes usar 'miter', 'round', o 'bevel')
+                'dash' => 0, // Patrón de línea del borde (0 = línea sólida)
+                'color' => array(0, 0, 0), // Color del borde (en RGB, negro en este caso)
+            ),
+        );
+
+        $receipt_width = $pdf->getPageWidth() * 0.5;
+        $receipt_height = $pdf->getPageHeight() * 0.25;
+
+        //$pdf->Rect($x = 0, $y = 0, $w = $receipt_width, $h = $receipt_height, 'F', $border_style = $borderStyle, $fill_color = array(255, 255, 255));
+        $pdf->MultiCell($w = $receipt_width, $h = $receipt_height, $txt = "", $border = $borderStyle, $align = 'C', $fill = false, $ln = 0, $x = 0, $y = 0); // RECT
+
+        // receipt header
+        //$pdf->Rect($x = 0, $y = 0, $w = $receipt_width * 0.2, $h = 15, 'F', $border_style = $borderStyle, $fill_color = null);
+        $pdf->MultiCell($w = $receipt_width * 0.2, $h = 20, $txt = "", $border = $borderStyle, $align = '', $fill = false, $ln = 0, $x = 0, $y = 0); // RECT
+        $pdf->Image('./assets/images/escudo-puno.png', $x = 0, $y = 0, $w = $receipt_width * 0.2, $h = 20, '', '', $align = 'T', $resize = false, $dpi = 300, '', false, false, $border = 1, $fitbox = 'CM', false, false);
+
+        //$pdf->Rect($x = $receipt_width * 0.2, $y = 0, $w = $receipt_width * 0.6, $h = 15, 'F', $border_style = $borderStyle, $fill_color = null);
+        $pdf->MultiCell($w = $receipt_width * 0.6, $h = 20, $txt = "", $border = $borderStyle, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.2, $y = 0); // RECT
+        $pdf->SetFont('helvetica', 'B', $size = 7, $fontfile = '');
+        $pdf->MultiCell($w = $receipt_width * 0.6, $h = null, "MUNICIPALIDAD PROVINCIAL DE PUNO", $border = 0, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.2, $y = 1);
+        $pdf->SetFont('helvetica', '', $size = 6);
+        $pdf->MultiCell($w = $receipt_width * 0.6, $h = null, "GERENCIA DE TURISMO DE DESARROLLO ECONÓMICO", $border = 0, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.2, $y = 5);
+        $pdf->MultiCell($w = $receipt_width * 0.6, $h = null, "SUB GERENCIA DE ACTIVIDADES ECONÓMICAS", $border = 0, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.2, $y = 8);
+        $pdf->MultiCell($w = $receipt_width * 0.6, $h = null, "RUC: 20146247084", $border = 0, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.2, $y = 11);
+        $pdf->SetFont('helvetica', 'B', $size = 9, $fontfile = '');
+        $pdf->MultiCell($w = $receipt_width * 0.6, $h = null, "COMPROBANTE DE PAGO", $border = 0, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.2, $y = 14);
+        $pdf->SetFont('helvetica', '', $size = 7);
+
+        //$pdf->Rect($x = $receipt_width * 0.8, $y = 0, $w = $receipt_width * 0.2, $h = 15, 'F', $border_style = $borderStyle, $fill_color = null);
+        $pdf->MultiCell($w = $receipt_width * 0.2, $h = 20, $txt = "", $border = $borderStyle, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.8, $y = 0); // RECT
+        $pdf->MultiCell($w = 19, $h = 0, "Serie A", $border = null, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.8 + 1, $y = 1);
+        $pdf->MultiCell($w = 19, $h = 0, $txt = "Nº " . sprintf("%05d", $bol->ord_ide), $border = $borderStyle, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.8 + 1, $y = 4.5);
+        $pdf->MultiCell($w = 19, $h = 0, "Fecha", $border = null, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.8 + 1, $y = 10);
+        $pdf->MultiCell($w = 19, $h = 0, $txt = $fechaact, $border = $borderStyle, $align = 'C', $fill = false, $ln = 0, $x = $receipt_width * 0.8 + 1, $y = 13.5);
+
+        // receipt body
+        //$pdf->Rect($x = 0, $y = 20, $w = $receipt_width, $h = 50, 'F', $border_style = $borderStyle, $fill_color = null);
+        $pdf->MultiCell($w = $receipt_width, $h = 45, $txt = "", $border = $borderStyle, $align = 'C', $fill = false, $ln = 0, $x = 0, $y = 20); // RECT
+
+        //$pdf->MultiCell($w = $receipt_width * 0.2, $h = null, $txt = "Contribuyente:", $border = $borderStyle, $align = 'L', $fill = false, $ln = 0, $x = 0, $y = 22.5); // RECT
+        $pdf->writeHTMLCell($w = $receipt_width, $h = null, $x = 0, $y = 22.5, $html = "Contribuyente: <b>" . $bol->com_datos . "</b>", $border = 0);
+
+        $table = <<<EOD
+                <table border="0.5" cellpadding="1" style="width: 100%;" cellspacing="0">
+                    <thead>
+                    <tr style="background-color:#eee">
+                    <td align="center"><b>CÓDIGO</b></td>
+                    <td align="center"><b>CONCEPTO DE PAGO</b></td>
+                    <td colspan="2" align="center"><b>IMPORTE</b></td>
+                    </tr>
+                    <tr style="background-color:#eee">
+                    <td align="center"><b></b></td>
+                    <td  align="center"><b></b></td>
+                    <td  align="center"><b>PARCIAL</b></td>
+                    <td  align="center"> <b>TOTAL</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center">1.</td>
+                            <td>XXXX</td>
+                            <td >XXXX</td>
+                            <td >XXXX</td>
+                        </tr>
+                        <tr>
+                            <td align="center">2.</td>
+                            <td>XXXX</td>
+                            <td >XXXX</td>
+                            <td >XXXX</td>
+                        </tr>
+                        <tr>
+                            <td align="center">3.</td>
+                            <td>XXXX</td>
+                            <td >XXXX</td>
+                            <td >XXXX</td>
+                        </tr>
+                        <tr>
+                            <td align="center">4.</td>
+                            <td>XXXX</td>
+                            <td >XXXX</td>
+                            <td >XXXX</td>
+                        </tr>
+                        <tr>
+                            <td align="center">5.</td>
+                            <td>XXXX</td>
+                            <td >XXXX</td>
+                            <td >XXXX</td>
+                        </tr>
+                    </tbody>
+                </table>
+                EOD;
+
+        $pdf->writeHTMLCell($w = $receipt_width, $h = null, $x = 0, $y = 27, $html = $table, $border = 0);
+
+        // receipt footer
+        $pdf->MultiCell($w = $receipt_width, $h = 8, $txt = "", $border = $borderStyle, $align = 'C', $fill = false, $ln = 0, $x = 0, $y = 66); // RECT
+        $pdf->writeHTMLCell($w = $receipt_width, $h = null, $x = 0, $y = 67, $html = "Son: <b><u>" . $this->get_letras($monto) . "</u></b>", $border = 0);
+        $pdf->MultiCell($w = $receipt_width, $h = null, $txt = "\"Puno Renace\"", $border = null, $align = 'C', $fill = false, $ln = 0, $x = 0, $y = 71);
+
+        // --------- garbage ---------
+        $pdf->MultiCell(0, $alto, $fechaact, $borde = 0, 'R', 0, 0, 0, 0);
+        $pdf->MultiCell(150, $alto, $bol->com_datos, $borde = 0, 'L', 0, 0, 40, 85);
         $pdf->MultiCell(80, $alto, "ALQUILER DEL PUESTO " . $bol->com_nro_puesto, $borde = 0, 'L', 0, 0, 40, 90);
         $pdf->MultiCell(80, $alto, "VENTA DE " . $bol->com_negocio, $borde = 0, 'L', 0, 0, 40, 95);
         $pdf->MultiCell(80, $alto, "MERCADO " . $bol->mer_nombre, $borde = 0, 'L', 0, 0, 40, 100);
@@ -160,7 +267,7 @@ class Modulo2 extends CI_Controller
         $pdf->MultiCell(150, $alto, $letras, $borde = 0, 'L', 0, 0, 30, 120);
 
         $pdf->SetFont('helvetica', 'B', 10, '', true);
-        $pdf->MultiCell(25, $alto, "CPN." . $bol->ord_ide, $borde = 0, 'L', 0, 0, 160, 20);
+        $pdf->MultiCell(25, 0, "CPN." . sprintf("%05d", $bol->ord_ide), $borde = $borderStyle, 'C', 0, 0, 160, 20);
 
         $nombre_archivo = utf8_decode("BOLETA " . $bol->ord_ide);
         $pdf->Output($nombre_archivo, 'I');
